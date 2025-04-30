@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finance Tracker Dashboard</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: #007bff;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .transactions-table th,
+        .transactions-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .transactions-table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .add-transaction {
+            margin-top: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        input, button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Finance Tracker Dashboard</h1>
+</header>
+
+<div class="container">
+    <h2>Your Transactions</h2>
+    <!-- Transactions Table -->
+    <table class="transactions-table" id="transactionsTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Transactions will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <!-- Add Transaction Form -->
+    <div class="add-transaction">
+        <h2>Add a New Transaction</h2>
+        <form action="addtransaction.jsp" method="post">
+    <input type="text" name="category" placeholder="Category" required>
+    <input type="number" name="amount" placeholder="Amount" step="0.01" required>
+    <input type="date" name="date" required>
+    <input type="text" name="description" placeholder="Description">
+    <button type="submit" action="addtransaction.jsp">Add Transaction</button>
+    
+</form>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    // Initialize transactions array from localStorage or empty if null
+    let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+
+    // Function to render transactions in the table
+    function renderTransactions() {
+        const tableBody = document.querySelector("#transactionsTable tbody");
+        tableBody.innerHTML = ""; // Clear the table first
+
+        transactions.forEach((transaction, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${transaction.category}</td>
+                <td>${transaction.amount.toFixed(2)}</td>
+                <td>${transaction.date}</td>
+                <td>${transaction.description || "N/A"}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Function to add a transaction
+    function addTransaction(event) {
+        event.preventDefault();
+
+        const category = document.getElementById("category").value.trim();
+        const amount = parseFloat(document.getElementById("amount").value);
+        const date = document.getElementById("date").value;
+        const description = document.getElementById("description").value.trim();
+
+        if (!category || isNaN(amount) || !date) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        // Add the new transaction
+        const newTransaction = { category, amount, date, description };
+        transactions.push(newTransaction);
+
+        // Save to local storage
+        localStorage.setItem("transactions", JSON.stringify(transactions)
+        
+        </script>
